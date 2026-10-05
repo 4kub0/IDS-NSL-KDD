@@ -1,9 +1,10 @@
-# Intrusion Detection System — Project Report
+# Intrusion Detection System — Baseline Experimental Study Report
 
 > **Dataset**: NSL-KDD (improved KDD Cup 1999)  
 > **Task**: Multi-class network intrusion classification  
-> **Algorithms**: 6 ML models × 4 experimental configurations  
-> **Code Location**: [d:\Codes\Research_P\Intrusion-Detection-System](file:///d:/Codes/Research_P/Intrusion-Detection-System)
+> **Scope**: Baseline evaluation across 6 ML algorithms × 4 configurations  
+> **Repository**: [https://github.com/4kub0/IDS-NSL-KDD](https://github.com/4kub0/IDS-NSL-KDD)  
+> **Note**: This report documents the initial flat baseline experiments that established benchmark performance before developing the 2-tier Hierarchical Edge/Cloud architecture (see `implementation_plan.md` and `README.md`).
 
 ---
 
@@ -134,7 +135,7 @@ All 41 features come from the NSL-KDD schema, divided into four conceptual group
 | `difficulty` | Meta-column (NSL-KDD artifact indicating sample difficulty); not a real network traffic attribute |
 
 > [!IMPORTANT]
-> The `difficulty` column is **always dropped** during data loading ([data_loader.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/data_loader.py#L32-L34)). It was added by the NSL-KDD creators to indicate how difficult a record is to classify — using it would be data leakage.
+> The `difficulty` column is **always dropped** during data loading ([src/data_loader.py](src/data_loader.py)). It was added by the NSL-KDD creators to indicate how difficult a record is to classify — using it would be data leakage.
 
 ---
 
@@ -379,16 +380,16 @@ This combination was selected as the production model, saved to `models/ids_mode
 
 | File | Description |
 |---|---|
-| [models/ids_model.pkl](file:///d:/Codes/Research_P/Intrusion-Detection-System/models/ids_model.pkl) | Best trained model (XGBoost, SMOTE+FS) |
-| [models/deployment_info.pkl](file:///d:/Codes/Research_P/Intrusion-Detection-System/models/deployment_info.pkl) | Scaler, encoders, feature list, metrics |
-| [results/comparison_results.csv](file:///d:/Codes/Research_P/Intrusion-Detection-System/results/comparison_results.csv) | Full metrics table (24 rows: 6 models x 4 configs) |
-| results/accuracy_comparison.png | Bar chart: Accuracy across all configs |
-| results/f1_comparison.png | Bar chart: F1-Score across all configs |
-| results/cm_*.png | 24 confusion matrix heatmaps |
+| `models/ids_model.pkl` | Best trained model (XGBoost, SMOTE+FS) |
+| `models/deployment_info.pkl` | Scaler, encoders, feature list, metrics |
+| [`results/comparison_results.csv`](results/comparison_results.csv) | Full metrics table (24 rows: 6 models x 4 configs) |
+| `results/accuracy_comparison.png` | Bar chart: Accuracy across all configs |
+| `results/f1_comparison.png` | Bar chart: F1-Score across all configs |
+| `results/cm_*.png` | 24 confusion matrix heatmaps |
 
 ---
 
-## 13. Code Architecture
+## 13. Code Architecture (Baseline Prototype)
 
 ```
 src/
@@ -401,19 +402,19 @@ src/
 ├── evaluator.py          # print_results_table(), plots, find_best_model()
 └── main.py               # run_pipeline() — full orchestrator
 tests/
-└── test_ids_pipeline.py  # Unit tests for all 8 modules
+└── test_ids_pipeline.py  # Unit tests for baseline modules
 ```
 
 | Module | Responsibility |
 |---|---|
-| [config.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/config.py) | Single source of truth for constants |
-| [data_loader.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/data_loader.py) | CSV ingestion, stats, drops `difficulty` |
-| [preprocessing.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/preprocessing.py) | LabelEncoder, StandardScaler, label binarization |
-| [smote_handler.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/smote_handler.py) | SMOTE via imbalanced-learn |
-| [feature_selection.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/feature_selection.py) | Correlation, SelectKBest, RF Importance |
-| [model_trainer.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/model_trainer.py) | Trains and evaluates 6 models, returns metrics |
-| [evaluator.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/evaluator.py) | CSV export, bar charts, confusion matrices |
-| [main.py](file:///d:/Codes/Research_P/Intrusion-Detection-System/src/main.py) | Runs full pipeline end-to-end |
+| [`src/config.py`](src/config.py) | Single source of truth for constants |
+| [`src/data_loader.py`](src/data_loader.py) | CSV ingestion, stats, drops `difficulty` |
+| [`src/preprocessing.py`](src/preprocessing.py) | LabelEncoder, StandardScaler, label binarization |
+| [`src/smote_handler.py`](src/smote_handler.py) | SMOTE via imbalanced-learn |
+| [`src/feature_selection.py`](src/feature_selection.py) | Correlation, SelectKBest, RF Importance |
+| [`src/model_trainer.py`](src/model_trainer.py) | Trains and evaluates 6 models, returns metrics |
+| [`src/evaluator.py`](src/evaluator.py) | CSV export, bar charts, confusion matrices |
+| [`src/main.py`](src/main.py) | Runs full pipeline end-to-end |
 
 ---
 

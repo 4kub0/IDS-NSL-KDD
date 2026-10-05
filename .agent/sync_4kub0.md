@@ -69,3 +69,23 @@
 **Next**: Step 3 / 4 — Evaluation runner and cascade triage once your boosting models are implemented, or local benchmark evaluation on NSL-KDD splits.
 **For lemonkartikeya**: Tree models are live and passing tests. Your `boosting_models.py` can follow the exact same pattern: inherit from `IDSModelMixin`, declare `name`, implement `fit(X, y)` and `predict(X)`. The registry will auto-discover your classes alongside ours.
 
+---
+
+## [2026-10-05T16:10:00+05:30] 4kub0
+
+**Action**: Migrated remote to fresh repository (`https://github.com/4kub0/IDS-NSL-KDD.git`), pruned legacy exploratory files (`IDS.ipynb`), and updated all documentation (`README.md`, `PROJECT_REPORT.md`).
+**Files Changed**:
+- `README.md` — Complete rewrite to document the modern Hierarchical IDS architecture, model tracks, dynamic registry, and setup.
+- `PROJECT_REPORT.md` — Fixed broken local path references, updated repository URL, and clarified baseline experiment scope.
+- `IDS.ipynb` — Removed legacy 1,745-line scratchpad.
+- `.agent/sync_4kub0.md` — Appended this migration entry.
+**Decisions Made**:
+- Repository migrated directly under `4kub0/IDS-NSL-KDD` to cleanly sever associations with the old upstream fork and maintain an isolated 3-author contributor graph (`4Kub0`, `lemoniskartikeya`, `Rajdeep`).
+**Depends On**: None.
+**Blocked**: None.
+**Next**: Step 3 (Cascade evaluation runner) or waiting for `boosting_models.py` from `lemonkartikeya`.
+**For lemonkartikeya**: Please update your local git remote to the new clean repository:
+  `git remote set-url origin https://github.com/4kub0/IDS-NSL-KDD.git`
+  `git pull origin main`
+
+
